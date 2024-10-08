@@ -36,11 +36,7 @@ doc = Document()
 style = doc.styles['Normal']
 style.font.name = 'Times New Roman'
 style.font.size = Pt(14)
-#head1 = doc.add_heading('Добавление заголовка документа', level=1)
-#head2 = doc.add_heading('Основы работы с файлами Microsoft Word на Python.', level=2)
-#doc.add_paragraph('майнкрафт')
-#head1.alignment = WD_ALIGN_PARAGRAPH.CENTER
-#head2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
 all_tags.reverse()
 for tag in all_tags:
     if "<p" in str(tag) :
@@ -48,11 +44,13 @@ for tag in all_tags:
         #print(all_tags.index(tag))
         number = all_tags.index(tag)
         break
-all_tags = all_tags[number:-2]
+all_tags = all_tags[number:-1]
 all_tags.reverse()
 print(all_tags)
 
-
+heading_first = soup.find('h1', id="firstHeading").text
+heading = doc.add_heading(heading_first)
+heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
 for tag in all_tags:
     sigmaetoybica = (re.sub(r'\[.*?\]',"",tag.text))
     if "<p>" in str(tag):
@@ -64,6 +62,7 @@ for tag in all_tags:
         image = doc.add_picture('./image_papka.jpg')
         picture_paragraph = doc.paragraphs[-1]
         picture_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        print ("test anton sosiski")
     if "<h2" in str(tag):
         head2 = doc.add_heading(sigmaetoybica, level=2)
         head2.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -83,7 +82,7 @@ for tag in all_tags:
 
 
 
-doc.save('./test.docx')
+doc.save('./result.docx')
 
 
 
